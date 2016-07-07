@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use DB;
 
 class HomeController extends Controller
@@ -31,7 +32,7 @@ class HomeController extends Controller
     public function showList(){
 
         $user = new \App\User();
-        $userList = $user->get();
+        $userList = $user->orderBy('created_at','DESC')->paginate(5);
 
             return view('welcome',['users'=>$userList]);
     }
