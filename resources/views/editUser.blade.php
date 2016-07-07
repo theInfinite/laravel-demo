@@ -30,7 +30,7 @@
 
                                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                             <label for="email" class="col-md-4 control-label">
-                                                {{--E-Mail Address--}}
+                                                E-Mail Address
                                                 {{--{{ Session::get('user_id')}} {{Session('user_id')}}--}}
                                                 <?php
                                                 $user_id = Session::get('user_id');
