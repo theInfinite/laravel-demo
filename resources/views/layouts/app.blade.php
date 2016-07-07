@@ -90,6 +90,9 @@
 
     <script src="{{ asset('javascript/script.js')}}" ></script>
 
+    <script src="{{ asset('javascript/sweetalert-master/dist/sweetalert.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('javascript/sweetalert-master/dist/sweetalert.css') }}">
+
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     @yield('script')
 </body>

@@ -20,4 +20,4 @@ Route::post('/deleteUser','UserController@deleteUser');
 Route::get('/home', 'HomeController@index');
 
 Route::get('/user', 'UserController@index');
-
+Route::post('/editUser','UserController@editUser');
