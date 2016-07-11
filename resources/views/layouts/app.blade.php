@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Laravel CRUD</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
@@ -40,7 +40,14 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
+                    Laravel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+                </a>
+
+                <a class="navbar-brand" href="{{url('/gallery')}}">
+                    Gallery&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|
+                </a>
+                <a class="navbar-brand" href="{{url('/map')}}">
+                    Map
                 </a>
             </div>
 
@@ -93,6 +100,8 @@
     <script src="{{ asset('javascript/sweetalert-master/dist/sweetalert.min.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ asset('javascript/sweetalert-master/dist/sweetalert.css') }}">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDMA8nisbtHSxvtp6xnoqJdrsIFpM81SqQ&callback=initMap"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     @yield('script')
 </body>

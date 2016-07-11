@@ -38,8 +38,8 @@ $(function() {
 
 var searchRequest = null;
 
-$(function () {
 
+$(function () {
     $("#search_keyword").keyup(function () {
         var token = $('input[name="_token"]').val();
         var that = this,
@@ -64,8 +64,6 @@ $(function () {
             });
     });
 });
-
-
 
 var showData = function () {
 
@@ -180,4 +178,193 @@ var editUser = function($emailId, $userId) {
             }
         });
         }});
+}
+
+var closeImage = function(e,$id) {
+    e.preventDefault();
+    alert('Image will be closed :: ' + $id);
+    var token = $('input[name="_token"]').val();
+    $.ajax({
+        type: "POST",
+        url: "/closeImage",
+        data: {
+            '_token': token,
+            'file_id': $id
+        },
+        dataType: "text",
+        success: function(result){
+            console.log(result);
+            $("#imageListing").html(result);
+        }
+    })
+}
+
+
+
+var uploadImage = function (e) {
+    e.preventDefault();
+
+    var CSRF_TOKEN = $('input[name="_token"]').val();
+    var file = $('#file')[0].files[0];
+    $.ajaxSetup({
+        headers: { 'X-CSRF-Token' : CSRF_TOKEN }
+    });
+    //var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '')
+
+    var formData = new FormData();
+    console.log(formData);
+    formData.append('file',file);
+    console.log(formData);
+    $.ajax({
+        type: "POST",
+        url: "/uploadImage",
+        data:formData,
+        contentType: false,
+        processData: false,
+
+    })
+};
+
+
+//var CSRF_TOKEN = $('input[name="_token"]').val();
+//var file = $('#file')[0].files[0];
+//
+//var formData = new FormData();
+//formData.append('file',file);
+//console.log(file);
+//// console.log($(this));
+//// return;
+//
+//// $.post('gallery/add',formData,function (data) {
+//// console.log(data);
+//// $("#message").html(data);
+////// getGalleryData();
+////
+//// });
+//// return false;
+//$.ajaxSetup({
+//    headers: { 'X-CSRF-Token' : CSRF_TOKEN }
+//});
+//$.ajax({
+//    type: "POST",
+//    url: "gallery/add", // Url to which the request is send
+//    data: formData,
+//    contentType: false,
+//    processData: false,
+//    success: function(data) // A function to be called if request succeeds
+//    {
+//        console.log(data);
+//        if(data == 'success'){
+//            $('#addButton').show();
+//            $('#uploadimage').hide();
+//            $('#file').val('');
+//            getGalleryData();
+//        }else if(data == 'no category'){
+//            swal({
+//                title: 'Please Add category First!',
+//                text: 'Category Missing!',
+//                type: 'warning',
+//                timer: 3000
+//            });
+//        }else {
+//            swal({
+//                title: 'Something Went Wrong!',
+//                text: 'Try Again!',
+//                type: 'warning',
+//                timer: 3000
+//            });
+//        }
+//    }
+//});
+
+$(function() {
+    $('#addMarkerForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            header: $('meta[name="_token"]').attr('content')
+        })
+
+        $.ajax({
+            type: "POST",
+            url: '/addMarker',
+            data: $(this).serialize(),
+            success: function (data) {
+                console.log(data);
+                if(data == 'Success') {
+
+                    alert('You have successfully added marker');
+                    window.location.reload();
+                }
+            },
+            error: function (data) {
+                console.log('data');
+                console.log(data);
+                if(data.responseText == 'already exist'){
+                    alert('Record already exist!');
+                }
+            }
+        })
+    });
+});
+
+function initMap() {
+    var token = $('input[name="_token"]').val();
+    $.ajax({
+        type: "POST",
+        url: '/getMarkers',
+        data: {
+            '_token': token
+        },
+        success: function (locations) {
+
+            var mapDiv = document.getElementById('map');
+            var map = new google.maps.Map(mapDiv, {
+                center: {lat: 20.5937, lng: 78.9629},
+                zoom: 4
+            });
+
+            Object.size = function(obj) {
+                var size = 0, key;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) size++;
+                }
+                return size;
+            };
+
+// Get the size of an object
+            var size = Object.size(locations);
+
+            for(var i = 1; i <= size; i++) {
+
+                new google.maps.Marker({
+                    position: {lat: parseFloat(locations[i]['lat']), lng: parseFloat(locations[i]['lng'])},
+                    map: map,
+                    title: locations[i]['placeName']
+                });
+            }
+        },
+        error: function (locations) {
+
+           alert('Record already exist!');
+        }
+    })
+}
+
+function addMarker1() {
+    var mapDiv = document.getElementById('map');
+    var map = new google.maps.Map(mapDiv, {
+        center: {lat: 20.5937, lng: 78.9629},
+        zoom: 4
+    });
+    new google.maps.Marker({
+        position: {lat: 25.1695, lng: 75.854},
+        map: map,
+        title: 'Namaste India!'
+    });
+
+    new google.maps.Marker({
+        position: {lat: 20.5937, lng: 78.9629},
+        map: map,
+        title: 'Namaste India!'
+    });
 }
